@@ -1,0 +1,32 @@
+{
+    "name": "istvanmolitor/cms-search",
+    "description": "Elasticsearch integration for CMS package.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Molitor István",
+            "email": "istvanmolitor@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0",
+        "elasticsearch/elasticsearch": "^8.11",
+        "istvanmolitor/cms": "*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Molitor\\CmsSearch\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Molitor\\CmsSearch\\Providers\\CmsSearchServiceProvider"
+            ]
+        }
+    }
+}
+
