@@ -276,8 +276,8 @@ class PageSearchService
             'language_id' => $page->language_id,
             'layout' => $page->layout,
             'main_image_url' => $page->main_image_url,
-            'created_at' => $page->created_at?->toIso8601String(),
-            'updated_at' => $page->updated_at?->toIso8601String(),
+            'created_at' => $page->created_at?->toDateTimeString(),
+            'updated_at' => $page->updated_at?->toDateTimeString(),
         ];
     }
 }
