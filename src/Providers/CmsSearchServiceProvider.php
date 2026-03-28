@@ -21,13 +21,14 @@ class CmsSearchServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/cms-search.php',
+            __DIR__.'/../config/cms-search.php',
             'cms-search'
         );
 
         // Register Elasticsearch client as singleton
         $this->app->singleton(Client::class, function ($app) {
             $config = config('cms-search.connection');
+
             return ClientBuilder::create()
                 ->setHosts($config['hosts'])
                 ->build();
@@ -49,7 +50,7 @@ class CmsSearchServiceProvider extends ServiceProvider
         // Publish config
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/cms-search.php' => config_path('cms-search.php'),
+                __DIR__.'/../config/cms-search.php' => config_path('cms-search.php'),
             ], 'cms-search-config');
 
             // Register commands
@@ -63,4 +64,3 @@ class CmsSearchServiceProvider extends ServiceProvider
         Page::observe(PageObserver::class);
     }
 }
-

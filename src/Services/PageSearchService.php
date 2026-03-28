@@ -11,6 +11,7 @@ use Molitor\Cms\Models\Page;
 class PageSearchService
 {
     private Client $client;
+
     private string $indexName;
 
     public function __construct(Client $client)
@@ -54,7 +55,7 @@ class PageSearchService
      */
     public function deleteIndex(): bool
     {
-        if (!$this->indexExists()) {
+        if (! $this->indexExists()) {
             return false;
         }
 
@@ -68,7 +69,7 @@ class PageSearchService
      */
     public function indexPage(Page $page): void
     {
-        if (!$this->indexExists()) {
+        if (! $this->indexExists()) {
             $this->createIndex();
         }
 
@@ -86,7 +87,7 @@ class PageSearchService
      */
     public function deletePageFromIndex(int $pageId): void
     {
-        if (!$this->indexExists()) {
+        if (! $this->indexExists()) {
             return;
         }
 
@@ -107,7 +108,7 @@ class PageSearchService
      */
     public function indexAllPages(): int
     {
-        if (!$this->indexExists()) {
+        if (! $this->indexExists()) {
             $this->createIndex();
         }
 
@@ -137,18 +138,17 @@ class PageSearchService
     /**
      * Search for pages
      *
-     * @param string $query Search query
-     * @param array $options Additional search options:
-     *   - language_id: Filter by language
-     *   - is_published: Filter by published status
-     *   - page: Page number (default: 1)
-     *   - per_page: Results per page (default: 20)
-     *
+     * @param  string  $query  Search query
+     * @param  array  $options  Additional search options:
+     *                          - language_id: Filter by language
+     *                          - is_published: Filter by published status
+     *                          - page: Page number (default: 1)
+     *                          - per_page: Results per page (default: 20)
      * @return array Array with 'data', 'total', 'page', 'per_page'
      */
     public function search(string $query, array $options = []): array
     {
-        if (!$this->indexExists()) {
+        if (! $this->indexExists()) {
             return [
                 'data' => [],
                 'total' => 0,
@@ -167,7 +167,7 @@ class PageSearchService
         $filter = [];
 
         // Add text search query
-        if (!empty($query)) {
+        if (! empty($query)) {
             $must[] = [
                 'multi_match' => [
                     'query' => $query,
@@ -195,7 +195,7 @@ class PageSearchService
         $body = [
             'query' => [
                 'bool' => [
-                    'must' => $must ?: [['match_all' => (object)[]]],
+                    'must' => $must ?: [['match_all' => (object) []]],
                     'filter' => $filter,
                 ],
             ],
@@ -234,7 +234,7 @@ class PageSearchService
             ];
         } catch (\Exception $e) {
             // Log error and return empty results
-            \Log::error('Elasticsearch search error: ' . $e->getMessage());
+            \Log::error('Elasticsearch search error: '.$e->getMessage());
 
             return [
                 'data' => [],
@@ -258,9 +258,9 @@ class PageSearchService
                     foreach ($region->contentElements as $element) {
                         // Extract text based on element type
                         if (isset($element->data['text'])) {
-                            $contentText .= strip_tags($element->data['text']) . ' ';
+                            $contentText .= strip_tags($element->data['text']).' ';
                         } elseif (isset($element->data['content'])) {
-                            $contentText .= strip_tags($element->data['content']) . ' ';
+                            $contentText .= strip_tags($element->data['content']).' ';
                         }
                     }
                 }
@@ -281,4 +281,3 @@ class PageSearchService
         ];
     }
 }
-

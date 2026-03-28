@@ -37,4 +37,3 @@ class IndexPagesCommand extends Command
         return self::SUCCESS;
     }
 }
-

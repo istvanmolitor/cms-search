@@ -40,4 +40,3 @@ class PageObserver
         $this->searchService->deletePageFromIndex($page->id);
     }
 }
-

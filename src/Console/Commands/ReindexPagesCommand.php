@@ -28,8 +28,9 @@ class ReindexPagesCommand extends Command
      */
     public function handle(PageSearchService $searchService): int
     {
-        if (!$this->confirm('This will delete the existing index and recreate it. Continue?', true)) {
+        if (! $this->confirm('This will delete the existing index and recreate it. Continue?', true)) {
             $this->info('Operation cancelled.');
+
             return self::SUCCESS;
         }
 
@@ -47,4 +48,3 @@ class ReindexPagesCommand extends Command
         return self::SUCCESS;
     }
 }
-
