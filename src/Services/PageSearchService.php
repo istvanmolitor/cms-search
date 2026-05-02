@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Molitor\CmsSearch\Services;
 
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 use Illuminate\Support\Collection;
 use Molitor\Cms\Models\Page;
 
@@ -47,7 +47,7 @@ class PageSearchService
      */
     public function indexExists(): bool
     {
-        return $this->client->indices()->exists(['index' => $this->indexName]);
+        return $this->client->indices()->exists(['index' => $this->indexName])->asBool();
     }
 
     /**

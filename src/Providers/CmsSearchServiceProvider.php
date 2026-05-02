@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Molitor\CmsSearch\Providers;
 
-use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
 use Molitor\Cms\Models\Page;
 use Molitor\CmsSearch\Console\Commands\IndexPagesCommand;
