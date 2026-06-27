@@ -13,7 +13,7 @@
     "require": {
         "php": "^8.2",
         "illuminate/support": "^12.0",
-        "elasticsearch/elasticsearch": "^8.11",
+        "istvanmolitor/search": "*@dev",
         "istvanmolitor/cms": "*@dev"
     },
     "autoload": {
@@ -29,4 +29,3 @@
         }
     }
 }
-
