@@ -6,6 +6,7 @@ namespace Molitor\CmsSearch\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Molitor\Cms\Models\Page;
+use Molitor\Cms\Repositories\PageRepositoryInterface;
 use Molitor\Search\Services\AbstractElasticsearchService;
 
 class PageIndexService extends AbstractElasticsearchService
@@ -89,22 +90,6 @@ class PageIndexService extends AbstractElasticsearchService
 
     private function extractContentText(Page $page): string
     {
-        $text = '';
-
-        if ($page->content && $page->content->contentRegions) {
-            foreach ($page->content->contentRegions as $region) {
-                if ($region->contentElements) {
-                    foreach ($region->contentElements as $element) {
-                        if (isset($element->data['text'])) {
-                            $text .= strip_tags($element->data['text']).' ';
-                        } elseif (isset($element->data['content'])) {
-                            $text .= strip_tags($element->data['content']).' ';
-                        }
-                    }
-                }
-            }
-        }
-
-        return trim($text);
+        return app(PageRepositoryInterface::class)->toString($page);
     }
 }

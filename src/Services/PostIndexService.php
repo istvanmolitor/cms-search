@@ -6,6 +6,7 @@ namespace Molitor\CmsSearch\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Molitor\Cms\Models\Post;
+use Molitor\Cms\Repositories\PostRepositoryInterface;
 use Molitor\Search\Services\AbstractElasticsearchService;
 
 class PostIndexService extends AbstractElasticsearchService
@@ -89,22 +90,6 @@ class PostIndexService extends AbstractElasticsearchService
 
     private function extractContentText(Post $post): string
     {
-        $text = '';
-
-        if ($post->content && $post->content->contentRegions) {
-            foreach ($post->content->contentRegions as $region) {
-                if ($region->contentElements) {
-                    foreach ($region->contentElements as $element) {
-                        if (isset($element->data['text'])) {
-                            $text .= strip_tags($element->data['text']).' ';
-                        } elseif (isset($element->data['content'])) {
-                            $text .= strip_tags($element->data['content']).' ';
-                        }
-                    }
-                }
-            }
-        }
-
-        return trim($text);
+        return app(PostRepositoryInterface::class)->toString($post);
     }
 }
