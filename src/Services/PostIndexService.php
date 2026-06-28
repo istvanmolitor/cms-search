@@ -7,7 +7,7 @@ namespace Molitor\CmsSearch\Services;
 use Illuminate\Database\Eloquent\Model;
 use Molitor\Cms\Models\Post;
 use Molitor\Cms\Repositories\PostRepositoryInterface;
-use Molitor\Search\Services\AbstractElasticsearchService;
+use Molitor\Elasticsearch\Services\AbstractElasticsearchService;
 
 class PostIndexService extends AbstractElasticsearchService
 {

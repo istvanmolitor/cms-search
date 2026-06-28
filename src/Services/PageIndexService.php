@@ -7,7 +7,7 @@ namespace Molitor\CmsSearch\Services;
 use Illuminate\Database\Eloquent\Model;
 use Molitor\Cms\Models\Page;
 use Molitor\Cms\Repositories\PageRepositoryInterface;
-use Molitor\Search\Services\AbstractElasticsearchService;
+use Molitor\Elasticsearch\Services\AbstractElasticsearchService;
 
 class PageIndexService extends AbstractElasticsearchService
 {
