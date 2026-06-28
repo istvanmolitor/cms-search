@@ -11,6 +11,11 @@ use Molitor\Elasticsearch\Services\AbstractElasticsearchService;
 
 class PostIndexService extends AbstractElasticsearchService
 {
+    protected function getModelClass(): string
+    {
+        return Post::class;
+    }
+
     protected function getIndexName(): string
     {
         return config('cms-search.indices.posts.name', 'cms_posts');

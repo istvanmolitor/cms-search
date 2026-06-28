@@ -11,6 +11,11 @@ use Molitor\Elasticsearch\Services\AbstractElasticsearchService;
 
 class PageIndexService extends AbstractElasticsearchService
 {
+    protected function getModelClass(): string
+    {
+        return Page::class;
+    }
+
     protected function getIndexName(): string
     {
         return config('cms-search.indices.pages.name', 'cms_pages');

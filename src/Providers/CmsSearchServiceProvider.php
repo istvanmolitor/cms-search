@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace Molitor\CmsSearch\Providers;
 
 use Elastic\Elasticsearch\Client;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Molitor\Cms\Models\Page;
-use Molitor\Cms\Models\Post;
+use Molitor\Cms\Events\Page\PageDeleted;
+use Molitor\Cms\Events\Page\PageUpdated;
+use Molitor\Cms\Events\Post\PostDeleted;
+use Molitor\Cms\Events\Post\PostUpdated;
 use Molitor\CmsSearch\Console\Commands\IndexPagesCommand;
 use Molitor\CmsSearch\Console\Commands\IndexPostsCommand;
 use Molitor\CmsSearch\Console\Commands\ReindexPagesCommand;
 use Molitor\CmsSearch\Console\Commands\ReindexPostsCommand;
-use Molitor\CmsSearch\Observers\PageObserver;
-use Molitor\CmsSearch\Observers\PostObserver;
+use Molitor\CmsSearch\Listeners\DeletePageIndexListener;
+use Molitor\CmsSearch\Listeners\DeletePostIndexListener;
+use Molitor\CmsSearch\Listeners\ReindexPageListener;
+use Molitor\CmsSearch\Listeners\ReindexPostListener;
 use Molitor\CmsSearch\Services\PageIndexService;
 use Molitor\CmsSearch\Services\PostIndexService;
 
@@ -29,6 +34,11 @@ class CmsSearchServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Event::listen(PostUpdated::class, ReindexPostListener::class);
+        Event::listen(PostDeleted::class, DeletePostIndexListener::class);
+        Event::listen(PageUpdated::class, ReindexPageListener::class);
+        Event::listen(PageDeleted::class, DeletePageIndexListener::class);
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/cms-search.php' => config_path('cms-search.php'),
@@ -42,7 +52,5 @@ class CmsSearchServiceProvider extends ServiceProvider
             ]);
         }
 
-        Page::observe(PageObserver::class);
-        Post::observe(PostObserver::class);
     }
 }
